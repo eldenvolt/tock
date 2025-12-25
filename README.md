@@ -4,16 +4,20 @@
 
 Super-minimal menubar timer with quick parsing, stopwatch mode, and a repeating chime.
 
-Inspired by [Horo](https://matthewpalmer.net/horo-free-timer-mac/), but even more minimal.
-
 ## Features
 
-- Menubar timer shows countdown or stopwatch time with monospaced digits.
+- Menubar timer shows countdown or stopwatch time with monospaced digits, using `MM:SS` and expanding to `HH:MM:SS` when needed.
 - Single input field with natural-language inputs: `10`, `5m`, `1.5h`, `45 sec`, etc. (defaults to minutes when unit is omitted).
 - Countdown stays at `00:00:00` when finished, with controls still enabled.
 - Countdown alarm repeats up to 10 times or until cleared.
 - Stopwatch mode when no countdown is running (or after a countdown finishes).
 - Right-click menubar icon for Open, Stopwatch, Pause/Restart, Clear, and Quit.
+
+## Usage
+
+- Enter a duration like `10`, `5m`, `1.5h`, or `45 sec`, then press Enter.
+- Click the play button to start a stopwatch without a countdown.
+- Clear stops the timer and silences the alarm.
 
 ## Shortcuts
 
