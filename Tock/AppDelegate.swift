@@ -195,9 +195,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   private func registerHotKey() {
     let modifiers: UInt32 = UInt32(controlKey | optionKey | cmdKey)
     let signature = OSType(bitPattern: 0x544F434B)
-    var hotKeyID = EventHotKeyID(signature: signature, id: hotKeyId)
+    let hotKeyID = EventHotKeyID(signature: signature, id: hotKeyId)
     RegisterEventHotKey(UInt32(kVK_ANSI_T), modifiers, hotKeyID, GetEventDispatcherTarget(), 0, &hotKeyRef)
-    var trashHotKeyID = EventHotKeyID(signature: signature, id: trashHotKeyId)
+    let trashHotKeyID = EventHotKeyID(signature: signature, id: trashHotKeyId)
     RegisterEventHotKey(UInt32(kVK_ANSI_X), modifiers, trashHotKeyID, GetEventDispatcherTarget(), 0, &trashHotKeyRef)
 
     var eventType = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))

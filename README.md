@@ -49,4 +49,4 @@ Inspired by [Horo](https://matthewpalmer.net/horo-free-timer-mac/), but even mor
 - Custom chime + volume control
 - Recent durations / favorites
 - Notification banner on finish
-- Website and dowwnloads
+- Website and downloads
