@@ -38,3 +38,13 @@ Super-minimal menubar timer with quick parsing, stopwatch mode, and a repeating 
 
 - App icon: `Tock/AppIcon.icns`
 - Alarm sound: `Tock/Sounds/chime.mp3`
+
+## Todo
+
+- Settings menu
+- Open on startup alert
+- Editable hotkeys
+- Custom chime + volume control
+- Recent durations / favorites
+- Notification banner on finish
+- Pomodoro presets
