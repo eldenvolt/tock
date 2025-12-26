@@ -7,7 +7,7 @@ Super-minimal menubar timer with quick parsing, stopwatch mode, and configurable
 ## Features
 
 - Menubar timer with countdown + stopwatch, plus quick natural-language input.
-- Configurable notification tone, repeat count, and alert volume.
+- Notification settings for tone (default: gentle-roll), repeat (default: 10x), volume (default: medium), and unit when omitted (default: minutes).
 - Context menu and popover controls for start/pause/clear and settings.
 
 ## Usage

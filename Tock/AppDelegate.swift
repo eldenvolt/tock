@@ -6,9 +6,7 @@ import Carbon
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-  private var panel: RoundedPanel?
-  private var globalEventMonitor: Any?
-  private var localEventMonitor: Any?
+  private let popover = NSPopover()
   private let model = TockModel()
   private var cancellables = Set<AnyCancellable>()
   private var hotKeyRef: EventHotKeyRef?
@@ -20,7 +18,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   private var stopwatchItem: NSMenuItem?
   private var pauseItem: NSMenuItem?
   private var clearItem: NSMenuItem?
-  private let panelCornerRadius: CGFloat = 8
 
   private static let statusBarImage: NSImage = {
     let config = NSImage.SymbolConfiguration(pointSize: 18, weight: .regular)
@@ -38,8 +35,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     #if DEBUG
     terminateOtherInstances()
     #endif
-    NSApp.windows.forEach { $0.orderOut(nil) }
-    configurePanel()
+    configurePopover()
     configureStatusItem()
     bindModel()
     updateStatusItem()
@@ -55,38 +51,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
   }
 
-  private func configurePanel() {
+  private func configurePopover() {
     let view = TockMenuView()
       .environmentObject(model)
       .environment(\.menuDismiss, MenuDismissAction { [weak self] in
-        self?.closePanel()
+        self?.popover.performClose(nil)
       })
-    let hostingView = NSHostingView(rootView: view)
-    hostingView.wantsLayer = true
-    hostingView.layer?.cornerRadius = panelCornerRadius
-    hostingView.layer?.masksToBounds = true
-
-    let panel = RoundedPanel(
-      contentRect: NSRect(x: 0, y: 0, width: 1, height: 1),
-      styleMask: [.borderless],
-      backing: .buffered,
-      defer: true
-    )
-    panel.isReleasedWhenClosed = false
-    panel.isOpaque = false
-    panel.backgroundColor = .clear
-    panel.hasShadow = true
-    panel.level = .popUpMenu
-    panel.collectionBehavior = [.transient, .moveToActiveSpace]
-    panel.isMovableByWindowBackground = false
-    panel.contentView = hostingView
-    let fittingSize = hostingView.fittingSize
-    let size = NSSize(
-      width: fittingSize.width > 0 ? fittingSize.width : 210,
-      height: fittingSize.height > 0 ? fittingSize.height : 160
-    )
-    panel.setContentSize(size)
-    self.panel = panel
+    popover.contentViewController = NSHostingController(rootView: view)
+    popover.behavior = .transient
+    popover.animates = false
   }
 
   private func configureStatusItem() {
@@ -118,19 +91,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   }
 
   @objc private func statusItemClicked(_ sender: NSStatusBarButton) {
-    guard let event = NSApp.currentEvent else { return }
-    if event.type == .rightMouseUp || event.type == .rightMouseDown {
+    guard let event = NSApp.currentEvent else {
+      NSApp.activate(ignoringOtherApps: true)
+      togglePopover(sender)
+      return
+    }
+    if event.type == .rightMouseDown || event.type == .rightMouseUp {
       showContextMenu()
     } else {
+      NSApp.activate(ignoringOtherApps: true)
       togglePopover(sender)
     }
   }
 
   private func togglePopover(_ sender: NSStatusBarButton) {
-    if panel?.isVisible == true {
-      closePanel()
+    if popover.isShown {
+      popover.performClose(sender)
     } else {
-      showPanel(sender)
+      NotificationCenter.default.post(name: Self.popoverWillShowNotification, object: nil)
+      popover.show(relativeTo: sender.bounds, of: sender, preferredEdge: .minY)
     }
   }
 
@@ -141,7 +120,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
   private func trashFromHotKey() {
     model.stop()
-    closePanel()
+    popover.performClose(nil)
   }
 
   private func showContextMenu() {
@@ -233,97 +212,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
   @objc private func stopTimerFromMenu() {
     model.stop()
-    closePanel()
+    popover.performClose(nil)
   }
 
   @objc private func openSettingsFromMenu() {
-    closePanel()
+    popover.performClose(nil)
     SettingsWindowController.shared.show()
-  }
-
-  private func showPanel(_ sender: NSStatusBarButton) {
-    guard let panel, let buttonWindow = sender.window else { return }
-    NotificationCenter.default.post(name: Self.popoverWillShowNotification, object: nil)
-    let buttonFrame = buttonWindow.convertToScreen(sender.frame)
-    let panelSize = panel.frame.size
-    var origin = NSPoint(
-      x: buttonFrame.midX - (panelSize.width / 2),
-      y: buttonFrame.minY - panelSize.height
-    )
-    if let screen = buttonWindow.screen {
-      let visible = screen.visibleFrame
-      origin.x = min(max(origin.x, visible.minX + 6), visible.maxX - panelSize.width - 6)
-      origin.y = min(max(origin.y, visible.minY + 6), visible.maxY - panelSize.height - 6)
-    }
-    panel.setFrameOrigin(origin)
-    NSApp.activate(ignoringOtherApps: true)
-    panel.makeKeyAndOrderFront(nil)
-    addPanelEventMonitors()
-  }
-
-  private func closePanel() {
-    panel?.orderOut(nil)
-    removePanelEventMonitors()
-  }
-
-  private func addPanelEventMonitors() {
-    if globalEventMonitor == nil {
-      globalEventMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
-        self?.handleGlobalClick()
-      }
-    }
-    if localEventMonitor == nil {
-      localEventMonitor = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown, .keyDown]) { [weak self] event in
-        guard let self else { return event }
-        if event.type == .keyDown, event.keyCode == 53 {
-          self.closePanel()
-          return nil
-        }
-        if self.isStatusItemClick(event) {
-          return event
-        }
-        if event.window === self.panel {
-          return event
-        }
-        self.closePanel()
-        return event
-      }
-    }
-  }
-
-  private func handleGlobalClick() {
-    guard let panel else { return }
-    let mouseLocation = NSEvent.mouseLocation
-    if isStatusItemClick(at: mouseLocation) {
-      return
-    }
-    if panel.frame.contains(mouseLocation) {
-      return
-    }
-    closePanel()
-  }
-
-  private func isStatusItemClick(_ event: NSEvent) -> Bool {
-    guard let button = statusItem.button, let window = button.window else { return false }
-    guard event.window === window else { return false }
-    return button.frame.contains(event.locationInWindow)
-  }
-
-  private func isStatusItemClick(at point: NSPoint) -> Bool {
-    guard let button = statusItem.button, let window = button.window else { return false }
-    let buttonFrame = window.convertToScreen(button.frame)
-    return buttonFrame.contains(point)
-  }
-
-  private func removePanelEventMonitors() {
-    if let globalEventMonitor {
-      NSEvent.removeMonitor(globalEventMonitor)
-      self.globalEventMonitor = nil
-    }
-    if let localEventMonitor {
-      NSEvent.removeMonitor(localEventMonitor)
-      self.localEventMonitor = nil
-    }
   }
 
   private func registerHotKey() {
@@ -353,9 +247,4 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
       }, 1, &eventType, UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque()), &hotKeyHandlerRef)
     }
   }
-}
-
-private final class RoundedPanel: NSPanel {
-  override var canBecomeKey: Bool { true }
-  override var canBecomeMain: Bool { true }
 }
