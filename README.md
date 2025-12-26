@@ -33,6 +33,24 @@ Super-minimal menubar timer with quick parsing, stopwatch mode, and configurable
 1. Organizer > `Distribute App` > `Custom` > `Copy App`
 1. Open the export folder and move the inner `Tock.app` to `/Applications`.
 
+## Download
+
+Download the latest macOS build:
+
+`https://github.com/edelstone/tock/releases/latest/download/Tock.dmg`
+
+First launch:
+
+1. Drag `Tock.app` to `/Applications`.
+1. Right-click `Tock.app` and choose `Open`.
+
+## Releasing
+
+This repo includes a GitHub Actions workflow that builds an unsigned DMG on tag pushes and uploads it to a GitHub Release.
+
+1. Tag a release: `git tag v0.1.0`
+1. Push the tag: `git push origin v0.1.0`
+
 ## Login item
 
 - Add via `System Settings > General > Login Items`.
