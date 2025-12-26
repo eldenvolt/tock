@@ -30,7 +30,7 @@ Download the latest macOS build:
 To install:
 
 1. Drag `Tock.app` to `/Applications`.
-1. Right-click `Tock.app` and choose `Open`.
+1. If macOS says the app is damaged, run this in Terminal: `xattr -dr com.apple.quarantine /Applications/Tock.app`
 1. Add the app to your login items via `System Settings > General > Login Items`.
 
 ## Local development
