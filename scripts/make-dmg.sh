@@ -19,6 +19,8 @@ if [[ -z "${OUT_PATH}" ]]; then
   OUT_PATH="dist/Tock.dmg"
 fi
 
+mkdir -p "$(dirname "${OUT_PATH}")"
+
 VOLUME_NAME="Tock"
 STAGING_DIR="$(mktemp -d)"
 
