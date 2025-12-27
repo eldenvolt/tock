@@ -5,6 +5,7 @@ struct TockMenuView: View {
   @Environment(\.menuDismiss) private var dismiss
   @State private var placeholder = Self.randomSuggestion()
   @FocusState private var isInputFocused: Bool
+  private static let textFieldBackground = Color(nsColor: .controlBackgroundColor)
 
   private static let suggestions = [
     "10s", "30 sec", "45 secs",
@@ -39,12 +40,7 @@ struct TockMenuView: View {
       .padding(.horizontal, 8)
       .background(
         RoundedRectangle(cornerRadius: 6, style: .continuous)
-          .fill(
-            Color(
-              nsColor: NSColor.windowBackgroundColor.blended(withFraction: 0.04, of: .white)
-                ?? NSColor.windowBackgroundColor
-            )
-          )
+          .fill(Self.textFieldBackground)
       )
       .font(.system(size: 26, weight: .regular))
       .frame(maxWidth: .infinity, alignment: .leading)
