@@ -4,7 +4,7 @@ import Combine
 import Carbon
 
 @MainActor
-final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSPopoverDelegate {
   private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
   private let popover = NSPopover()
   private let model = TockModel()
@@ -18,6 +18,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
   private var stopwatchItem: NSMenuItem?
   private var pauseItem: NSMenuItem?
   private var clearItem: NSMenuItem?
+  private var eventMonitor: Any?
+  private var keyMonitor: Any?
+
 
   private static let statusBarImage: NSImage = {
     let config = NSImage.SymbolConfiguration(pointSize: 18, weight: .regular)
@@ -58,15 +61,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         self?.popover.performClose(nil)
       })
     popover.contentViewController = NSHostingController(rootView: view)
-    popover.behavior = .transient
+    popover.behavior = .applicationDefined
     popover.animates = false
+    popover.delegate = self
   }
 
   private func configureStatusItem() {
     guard let button = statusItem.button else { return }
     button.target = self
     button.action = #selector(statusItemClicked(_:))
-    button.sendAction(on: [.leftMouseDown, .rightMouseUp])
+    button.sendAction(on: [.leftMouseUp, .rightMouseUp])
   }
 
   private func bindModel() {
@@ -104,7 +108,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
       togglePopover(sender)
       return
     }
-    if event.type == .rightMouseDown || event.type == .rightMouseUp {
+    if event.type == .rightMouseUp {
       showContextMenu()
     } else {
       NSApp.activate(ignoringOtherApps: true)
@@ -118,6 +122,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     } else {
       NotificationCenter.default.post(name: Self.popoverWillShowNotification, object: nil)
       popover.show(relativeTo: sender.bounds, of: sender, preferredEdge: .minY)
+      startEventMonitors()
     }
   }
 
@@ -198,6 +203,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
   }
 
+  func popoverDidClose(_ notification: Notification) {
+    stopEventMonitors()
+  }
+
   @objc private func quitApp() {
     NSApp.terminate(nil)
   }
@@ -254,5 +263,52 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return noErr
       }, 1, &eventType, UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque()), &hotKeyHandlerRef)
     }
+  }
+
+  private func startEventMonitors() {
+    stopEventMonitors()
+    eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] event in
+      self?.handleGlobalMouseDown(event)
+    }
+    keyMonitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown]) { [weak self] event in
+      guard let self else { return event }
+      if self.popover.isShown && event.keyCode == 53 {
+        self.popover.performClose(nil)
+        return nil
+      }
+      return event
+    }
+  }
+
+  private func stopEventMonitors() {
+    if let eventMonitor {
+      NSEvent.removeMonitor(eventMonitor)
+      self.eventMonitor = nil
+    }
+    if let keyMonitor {
+      NSEvent.removeMonitor(keyMonitor)
+      self.keyMonitor = nil
+    }
+  }
+
+  private func handleGlobalMouseDown(_ event: NSEvent) {
+    guard popover.isShown else { return }
+    let inPopover = isEventInPopover(event)
+    let inStatusItem = isEventInStatusItem(event)
+    if inPopover || inStatusItem {
+      return
+    }
+    popover.performClose(nil)
+  }
+
+  private func isEventInPopover(_ event: NSEvent) -> Bool {
+    guard let popoverWindow = popover.contentViewController?.view.window else { return false }
+    return popoverWindow.frame.contains(event.locationInWindow)
+  }
+
+  private func isEventInStatusItem(_ event: NSEvent) -> Bool {
+    guard let button = statusItem.button, let window = button.window else { return false }
+    let buttonFrame = window.convertToScreen(button.frame)
+    return buttonFrame.contains(event.locationInWindow)
   }
 }

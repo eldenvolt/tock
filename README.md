@@ -7,20 +7,20 @@ Super-minimal menubar timer with quick parsing, stopwatch mode, and configurable
 ## Features
 
 - Menubar timer with countdown + stopwatch, plus quick natural-language input.
-- Notification settings for tone (default: light-hearted), repeat (default: 10x), volume (default: medium), and unit when omitted (default: minutes).
+- Notification settings with multiple tones, repeat, volume, and default unit when omitted.
 - Context menu and popover controls for start/pause/clear and settings.
 
 ## Usage
 
-- Enter a duration like `10`, `5m`, `1.5h`, `45 sec`, or `17m 45s`, then press Enter.
-- Enter a time like `10pm` or `6:15a` to count down until the next occurrence.
+- Enter a duration like `10`, `5m`, `1.5h`, `45 sec`, `17m 45s`, or `25:00`, then press Enter.
+- Enter a time like `10pm`, `6:15a`, or `noon` to count down until the next occurrence.
 - Click the play button to start a stopwatch without a countdown.
 - Clear stops the timer and silences the alarm.
 
 ## Shortcuts
 
-- Open popover: ⌃⌥⌘T
-- Clear timer: ⌃⌥⌘X
+- Open popover: `⌃⌥⌘T`
+- Clear timer: `⌃⌥⌘X`
 
 ## Download
 
