@@ -12,8 +12,8 @@ Before tagging, make sure all release changes are committed and pushed, then:
 
 1. Tag a release: `git tag v0.1.0`
 1. Push the tag: `git push origin v0.1.0`
-1. Optional: add GitHub Release notes with the CLI (supports bullet lists):
-   - `gh release create v0.1.0 --notes $'Highlights:\n- First item\n- Second item'`
+1. Optional: edit GitHub Release notes with the CLI (supports bullet lists):
+   - `gh release edit v0.1.0 --notes $'Highlights:\n- First item\n- Second item'`
 1. Optional: download the GitHub Release DMG and smoke test it (CI artifact that users get).
 
 ## Personal dev workflow
