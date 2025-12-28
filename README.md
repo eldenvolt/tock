@@ -2,14 +2,14 @@
 
 <img src="Tock/AppIcon.png" alt="Tock app icon" width="128">
 
-Super-minimal menubar timer with quick parsing, stopwatch mode, and configurable repeating tones.
+Super-minimal  menu bar timer with natural-language parsing, stopwatch mode, and configurable repeating tones.
 
 ## Features
 
-- Menubar timer with countdown + stopwatch, plus quick natural-language input.
-- Flexible notification settings with multiple tones, repeat, volume, and default unit when omitted.
+- Menu bar countdown timer and stopwatch with natural-language input.
+- Flexible notifications: multiple tones, repeat behavior, volume, and default units.
 - Context (right-click) menu with most app controls, plus popover UI.
-- Customizable global keyboard shortcuts for common actions (Open, Clear).
+- Customizable global keyboard shortcuts for common actions.
 
 ## Installation
 
@@ -32,8 +32,8 @@ Super-minimal menubar timer with quick parsing, stopwatch mode, and configurable
 - Enter a time of day like `10pm`, `6:15a`, or `noon` to count down until the next occurrence.
 - Click the play button to start a stopwatch with no countdown.
 - Clear stops the timer and silences any active alarm.
-- Most actions are also available via the menubar right-click menu.
-- Settings allow customization of notifications and keyboard shortcuts.
+- Quit via context (right-click) menu or open the popover and type ⌘-Q.
+- Configure notifications and keyboard shortcuts in Settings.
 
 ## Default shortcuts
 
@@ -50,4 +50,4 @@ All sounds from [Notification Sounds](https://notificationsounds.com).
 
 ## License
 
-MIT, use freely in commercial and personal projects.
+MIT — free for commercial and personal use.
