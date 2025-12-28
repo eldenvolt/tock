@@ -18,7 +18,7 @@ Super-minimal menubar timer with quick parsing, stopwatch mode, and configurable
    [![Download](https://img.shields.io/github/v/release/edelstone/tock?label=Download&logo=apple&style=for-the-badge&color=5865f2)](https://github.com/edelstone/tock/releases/latest/download/Tock.dmg)
 
 2. Drag `Tock.app` to `/Applications`.
-3. If macOS warns that the app is damaged or can’t be opened (Gatekeeper), this is usually due to the quarantine flag on apps downloaded outside the App Store. You can remove it for Tock only by running:
+3. If macOS warns that the app is damaged or can’t be opened (Gatekeeper), this is usually due to the quarantine flag applied to apps downloaded outside the App Store. You can remove the flag for Tock only by running:
 
    ```bash
    xattr -dr com.apple.quarantine /Applications/Tock.app

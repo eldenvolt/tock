@@ -14,7 +14,7 @@ Open `Tock.xcodeproj`, select the `Tock` scheme, and run from Xcode.
 
 ## Pre-release (local)
 
-Build and test the app before tagging a release (optional but recommended to catch obvious issues before CI).
+Build and test the app locally before tagging a release (optional but recommended to catch obvious issues before CI).
 
 1. Build the unsigned DMG.
 
@@ -32,8 +32,8 @@ Build and test the app before tagging a release (optional but recommended to cat
 ## Publish a release (CI)
 
 1. Commit and push all new release changes to GitHub.
-2. Create an annotated release tag and add release notes (multi-line messages are supported):  
-   `git tag -a v0.1.0 -m "release notes go here"`
+2. Create an annotated release tag and add release notes in the editor:  
+   `git tag -a v0.1.0` (be sure to update the version)
 3. Push the tag:  
    `git push origin v0.1.0`
 4. Optional: edit the GitHub release notes later with `gh release edit` if needed, for example:  
