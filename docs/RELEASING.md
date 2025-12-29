@@ -42,11 +42,10 @@ Run a local DMG build to catch obvious issues before tagging a release.
 2. Create and push a lightweight tag with the next sequential version number:
    - `git tag v0.1.0`
    - `git push origin v0.1.0`
-3. Create the GitHub Release:
-   - `gh release create v0.1.0 --notes $'Highlights:\n- First item\n- Second item'`
-
-   (To edit release notes later: `gh release edit v0.1.0`)
-4. After CI completes, download and install the DMG from the GitHub Release.
+3. A GitHub Release is created automatically by CI and is named after the tag.
+4. To add or update release notes:
+   - `gh release edit v0.1.0 --notes $'Highlights:\n- First item\n- Second item'`
+5. After CI completes, download and install the DMG from the GitHub Release.
    - This DMG is the **exact artifact users receive**.
    - If macOS blocks launch:  
      `xattr -dr com.apple.quarantine /Applications/Tock.app`
