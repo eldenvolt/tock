@@ -43,7 +43,7 @@ Run a local DMG build to catch obvious issues before tagging a release.
    - `git tag v0.1.0`
    - `git push origin v0.1.0`
 3. A GitHub Release is created automatically by CI and is named after the tag.
-4. To add or update release notes:
+4. Add or update release notes (if you see “release not found”, wait for CI to finish):
    - `gh release edit v0.1.0 --notes $'Highlights:\n- First item\n- Second item'`
 5. After CI completes, download and install the DMG from the GitHub Release.
    - This DMG is the **exact artifact users receive**.
