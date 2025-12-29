@@ -29,7 +29,8 @@ Run a local DMG build to catch obvious issues before tagging a release.
      cd /path/to/tock
      rm -rf build dist
      mkdir -p dist
-     xcodebuild -scheme Tock -configuration Release -destination 'generic/platform=macOS' -derivedDataPath build CODE_SIGNING_ALLOWED=NO
+     VERSION="$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//')"
+     xcodebuild -scheme Tock -configuration Release -destination 'generic/platform=macOS' -derivedDataPath build CODE_SIGNING_ALLOWED=NO MARKETING_VERSION="${VERSION}"
      ./scripts/make-dmg.sh "build/Build/Products/Release/Tock.app" "dist/Tock.dmg"
      ```
 
@@ -49,6 +50,7 @@ Run a local DMG build to catch obvious issues before tagging a release.
    - This DMG is the **exact artifact users receive**.
    - If macOS blocks launch:  
      `xattr -dr com.apple.quarantine /Applications/Tock.app`
+6. Note: CI sets the app version from the tag (e.g., `v0.1.0` → `0.1.0`).
 
 ## If CI fails after tagging
 
