@@ -72,6 +72,7 @@ struct TockSettingsView: View {
                 .tag(tone.rawValue)
             }
           }
+          .padding(.vertical, 2)
           .focused($focusedField, equals: .tone)
           .focusEffectDisabled()
           .pickerStyle(.menu)
@@ -89,6 +90,7 @@ struct TockSettingsView: View {
                 .tag(option.rawValue)
             }
           }
+          .padding(.vertical, 2)
           .focused($focusedField, equals: .repeatCount)
           .focusEffectDisabled()
           .pickerStyle(.menu)
@@ -99,6 +101,7 @@ struct TockSettingsView: View {
                 .tag(volume.rawValue)
             }
           }
+          .padding(.vertical, 2)
           .focused($focusedField, equals: .volume)
           .focusEffectDisabled()
           .pickerStyle(.menu)
@@ -112,6 +115,7 @@ struct TockSettingsView: View {
                 .tag(unit.rawValue)
             }
           }
+          .padding(.vertical, 2)
           .focused($focusedField, equals: .defaultUnit)
           .focusEffectDisabled()
           .pickerStyle(.menu)
@@ -139,6 +143,7 @@ struct TockSettingsView: View {
                 dimensions[VerticalAlignment.center]
               }
           }
+          .padding(.vertical, 2)
 
           LabeledContent {
             #if canImport(KeyboardShortcuts)
@@ -163,6 +168,7 @@ struct TockSettingsView: View {
                 dimensions[VerticalAlignment.center]
               }
           }
+          .padding(.vertical, 2)
 
           if hasHotkeyConflict {
             Text("Open and Clear shortcuts must be different.")
@@ -175,6 +181,10 @@ struct TockSettingsView: View {
               .fixedSize(horizontal: false, vertical: true)
           }
         }
+        Text(Self.appVersionText)
+          .font(.system(size: 12, weight: .regular))
+          .foregroundStyle(.secondary)
+          .padding(.top, 6)
         .onAppear {
           DispatchQueue.main.async {
             focusedField = .tone
@@ -208,6 +218,12 @@ struct TockSettingsView: View {
     .onReceive(NotificationCenter.default.publisher(for: SettingsWindowController.settingsDidResignKeyNotification)) { _ in
       stopPreviewTone()
     }
+  }
+
+  private static var appVersionText: String {
+    let info = Bundle.main.infoDictionary
+    let version = info?["CFBundleShortVersionString"] as? String ?? "Unknown"
+    return "Version \(version)"
   }
 
   private func playPreviewTone(named rawValue: String) {
