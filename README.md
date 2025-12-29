@@ -46,7 +46,8 @@ See [docs/RELEASING.md](docs/RELEASING.md) for the full release workflow.
 
 ## Credits
 
-All sounds from [Notification Sounds](https://notificationsounds.com).
+- All sounds from [Notification Sounds](https://notificationsounds.com).
+- Icons from [Tabler Icons](https://tabler.io/icons).
 
 ## License
 

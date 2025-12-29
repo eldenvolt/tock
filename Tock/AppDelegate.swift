@@ -26,9 +26,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSPopo
 
 
   private static let statusBarImage: NSImage = {
-    let config = NSImage.SymbolConfiguration(pointSize: 18, weight: .regular)
-    let image = NSImage(systemSymbolName: "hourglass", accessibilityDescription: nil)?
-      .withSymbolConfiguration(config) ?? NSImage()
+    let image = NSImage(named: "hourglass") ?? NSImage()
     image.isTemplate = true
     image.size = NSSize(width: 18, height: 18)
     return image

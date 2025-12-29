@@ -64,8 +64,11 @@ struct TockMenuView: View {
           SettingsWindowController.shared.show()
           dismiss()
         } label: {
-          Image(systemName: "gearshape.fill")
-            .font(.system(size: 20, weight: .semibold))
+          Image("settings")
+            .renderingMode(.template)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 20, height: 20)
             .frame(width: 28, height: 28)
         }
         .buttonStyle(.borderless)
@@ -86,8 +89,11 @@ struct TockMenuView: View {
             model.startStopwatch()
           }
         } label: {
-          Image(systemName: (model.isRunning && !model.isPaused) ? "pause.fill" : "play.fill")
-            .font(.system(size: 20, weight: .semibold))
+          Image((model.isRunning && !model.isPaused) ? "pause" : "play")
+            .renderingMode(.template)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 20, height: 20)
             .frame(width: 28, height: 28)
         }
         .buttonStyle(.borderless)
@@ -96,8 +102,11 @@ struct TockMenuView: View {
           model.stop()
           dismiss()
         } label: {
-          Image(systemName: "xmark.circle.fill")
-            .font(.system(size: 20, weight: .semibold))
+          Image("close")
+            .renderingMode(.template)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 20, height: 20)
             .frame(width: 28, height: 28)
         }
         .buttonStyle(.borderless)
