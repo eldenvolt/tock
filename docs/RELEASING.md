@@ -6,13 +6,8 @@ The local steps exist to sanity-check the build. The CI artifact is the canonica
 
 ## Prerequisites
 
-### One-time setup
-
 - Xcode installed.
 - `Tock` scheme is shared in Xcode (Xcode → Manage Schemes → Shared).
-
-### Optional
-
 - GitHub CLI (`gh`) for creating/editing release notes from the terminal.
 
 ## Development
