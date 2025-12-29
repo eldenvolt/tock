@@ -50,7 +50,6 @@ Run a local DMG build to catch obvious issues before tagging a release.
    - This DMG is the **exact artifact users receive**.
    - If macOS blocks launch:  
      `xattr -dr com.apple.quarantine /Applications/Tock.app`
-6. Note: CI sets the app version from the tag (e.g., `v0.1.0` → `0.1.0`).
 
 ## If CI fails after tagging
 
