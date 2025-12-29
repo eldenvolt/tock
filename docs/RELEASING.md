@@ -40,20 +40,21 @@ Run a local DMG build to catch obvious issues before tagging a release.
 ## Publish a release (CI)
 
 1. Commit and push all release changes.
-2. Create and push a lightweight tag with the next sequential version number:
+2. Create and push a lightweight tag with the next sequential version number.
    - `git tag v0.1.0`
    - `git push origin v0.1.0`
 3. A GitHub Release is created automatically by CI and is named after the tag.
-4. Add or update release notes (if you see “release not found”, wait for CI to finish):
+4. Add or update release notes.
    - `gh release edit v0.1.0 --notes $'Highlights:\n- First item\n- Second item'`
-5. After CI completes, download and install the DMG from the GitHub Release.
+   - If you see “release not found”, wait for CI to finish.
+5. Download and install the DMG from the GitHub Release.
    - This DMG is the **exact artifact users receive**.
    - If macOS blocks launch:  
      `xattr -dr com.apple.quarantine /Applications/Tock.app`
 
 ## If CI fails after tagging
 
-1. Delete the bad tag locally and remotely:
+1. Delete the bad tag locally and remotely.
    - `git tag -d v0.1.0 || true && git push origin :v0.1.0`
 2. Fix the issue.
 3. Re-tag and push again.
