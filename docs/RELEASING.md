@@ -47,7 +47,7 @@ Run a local DMG build to catch obvious issues before tagging a release.
    - If macOS blocks launch:  
      `xattr -dr com.apple.quarantine /Applications/Tock.app`
 
-## If CI fails after tagging
+### If CI fails after tagging
 
 1. Delete the bad tag locally and remotely.
    - `git tag -d v0.1.0 || true && git push origin :v0.1.0`
