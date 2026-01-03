@@ -82,6 +82,19 @@ a:not(.button):hover {
   grid-auto-flow: column;
   justify-content: center;
   gap: .75rem;
+  align-items: start;
+}
+
+.download-cta {
+  display: grid;
+  gap: .25rem;
+  justify-items: center;
+}
+
+.download-meta {
+  margin: 0;
+  font-size: .75rem;
+  color: var(--color-accent);
 }
 
 .button {
