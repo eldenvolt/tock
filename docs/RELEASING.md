@@ -16,8 +16,12 @@ Open `Tock.xcodeproj`, select the `Tock` scheme, and run from Xcode.
 
 Use this flow for the official non–App Store release. It produces a signed, notarized, and stapled DMG.
 
-1. Archive and notarize the app in Xcode.
-   - Xcode → Target `Tock` → Signing & Capabilities:
+1. Bump the app version/build in Xcode.
+   - Target `Tock` → General → Version (MARKETING_VERSION) and Build (CURRENT_PROJECT_VERSION).
+   - These values control the app’s reported version everywhere (Finder, About screen, crash logs).
+
+2. Archive and notarize the app in Xcode.
+   - Target `Tock` → Signing & Capabilities:
      - Release tab (not Debug/All)
      - Automatically manage signing: off
      - Provisioning profile: none
@@ -26,13 +30,14 @@ Use this flow for the official non–App Store release. It produces a signed, no
    - Product → Archive
    - Archive Organizer → Distribute App → Direct Distribution
    - Wait for notarization to succeed, then export `Tock.app`.
-2. Verify the exported app passes Gatekeeper.
+
+3. Verify the exported app passes Gatekeeper.
 
    ```bash
    spctl -a -vv /path/to/Tock.app
    ```
 
-3. Build a DMG from the notarized app.
+4. Build a DMG from the notarized app.
 
    ```bash
    cd /path/to/tock
@@ -44,7 +49,7 @@ Use this flow for the official non–App Store release. It produces a signed, no
 
    - `SIGNING_IDENTITY` is required; the script will fail if it is missing.
 
-4. Notarize the DMG with `notarytool`.
+5. Notarize the DMG with `notarytool`.
    - One-time setup (per machine, run once):
 
      ```bash
@@ -57,21 +62,21 @@ Use this flow for the official non–App Store release. It produces a signed, no
      xcrun notarytool submit "dist/Tock.dmg" --keychain-profile "tock-notary" --wait
      ```
 
-5. Staple and validate the DMG.
+6. Staple and validate the DMG.
 
    ```bash
    xcrun stapler staple "dist/Tock.dmg"
    xcrun stapler validate "dist/Tock.dmg"
    ```
 
-6. Final smoke check.
+7. Final smoke check.
    - Mount `dist/Tock.dmg`, drag `Tock.app` to `/Applications`, then:
 
      ```bash
      spctl -a -vv /Applications/Tock.app
      ```
 
-7. Launch `Tock.app` from `/Applications` and verify core behavior, notifications, settings, and shortcuts.
+8. Launch `Tock.app` from `/Applications` and verify core behavior, notifications, settings, and shortcuts.
 
 ## Publish a release (GitHub)
 
