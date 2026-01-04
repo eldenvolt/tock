@@ -7,14 +7,17 @@ assignees: ""
 ---
 
 **Tock version**
-(e.g. 0.1.0)
+(e.g. 0.1.25)
 
 **macOS version**
 (e.g. macOS 26.2)
 
 **What did you expect to happen?**
 
-**What actually happened?**
+**What happened instead?**
+
+**Did it start after an update?**
+(yes/no)
 
 **Steps to reproduce**
 (If applicable)
