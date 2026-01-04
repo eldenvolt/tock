@@ -74,6 +74,8 @@ a:not(.button) {
   max-width: 28rem;
   width: 100%;
   height: auto;
+  aspect-ratio: 2.6 / 1;
+  object-fit: cover;
 }
 
 .cta {
