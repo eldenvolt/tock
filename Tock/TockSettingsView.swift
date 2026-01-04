@@ -1,6 +1,7 @@
 import SwiftUI
 import AVFoundation
 import ServiceManagement
+import UserNotifications
 #if canImport(KeyboardShortcuts)
 import AppKit
 import KeyboardShortcuts
@@ -15,6 +16,7 @@ struct TockSettingsView: View {
   @AppStorage(TockSettingsKeys.menuBarIconSize) private var menuBarIconSize = MenuBarIconSize.default.rawValue
   @AppStorage(TockSettingsKeys.menuButtonSize) private var menuButtonSize = MenuButtonSize.default.rawValue
   @AppStorage(TockSettingsKeys.menuButtonBrightness) private var menuButtonBrightness = MenuButtonBrightness.default.rawValue
+  @AppStorage(TockSettingsKeys.showNotifications) private var showNotifications = false
   @State private var previewPlayer: AVAudioPlayer?
   @State private var previewPlayers: [String: AVAudioPlayer] = [:]
   @State private var skipTonePreview = false
@@ -27,6 +29,7 @@ struct TockSettingsView: View {
   @State private var launchAtLogin = false
   @State private var isUpdatingLaunchAtLogin = false
   @State private var launchAtLoginError: String?
+  @State private var showNotificationsError: String?
 
   private enum FocusField {
     case tone
@@ -64,8 +67,23 @@ struct TockSettingsView: View {
             }
             .frame(maxWidth: .infinity, alignment: .center)
 
+          Toggle("Show notifications", isOn: $showNotifications)
+            .toggleStyle(.checkbox)
+            .onChange(of: showNotifications) { _, newValue in
+              handleShowNotificationsChange(newValue)
+            }
+            .padding(.top, 6)
+            .frame(maxWidth: .infinity, alignment: .center)
+
           if let launchAtLoginError {
             Text(launchAtLoginError)
+              .foregroundStyle(.red)
+              .frame(maxWidth: .infinity, alignment: .leading)
+              .fixedSize(horizontal: false, vertical: true)
+          }
+
+          if let showNotificationsError {
+            Text(showNotificationsError)
               .foregroundStyle(.red)
               .frame(maxWidth: .infinity, alignment: .leading)
               .fixedSize(horizontal: false, vertical: true)
@@ -277,6 +295,7 @@ struct TockSettingsView: View {
             menuButtonBrightness = MenuButtonBrightness.default.rawValue
           }
           refreshLaunchAtLoginState()
+          refreshNotificationAuthorization()
         }
         .onReceive(NotificationCenter.default.publisher(for: Hotkey.registrationFailedNotification)) { notification in
           hotkeyErrorMessage = Self.formatHotkeyError(notification)
@@ -435,6 +454,61 @@ struct TockSettingsView: View {
       launchAtLoginError = "Could not update login item."
     }
     refreshLaunchAtLoginState()
+  }
+
+  private func refreshNotificationAuthorization() {
+    guard showNotifications else { return }
+    let center = UNUserNotificationCenter.current()
+    center.getNotificationSettings { settings in
+      DispatchQueue.main.async {
+        switch settings.authorizationStatus {
+        case .authorized, .provisional, .ephemeral:
+          showNotificationsError = nil
+        case .notDetermined:
+          break
+        case .denied:
+          showNotifications = false
+          showNotificationsError = "Notifications are disabled in System Settings."
+        @unknown default:
+          showNotifications = false
+          showNotificationsError = "Notifications are unavailable."
+        }
+      }
+    }
+  }
+
+  private func handleShowNotificationsChange(_ enabled: Bool) {
+    guard enabled else {
+      showNotificationsError = nil
+      return
+    }
+
+    let center = UNUserNotificationCenter.current()
+    center.getNotificationSettings { settings in
+      DispatchQueue.main.async {
+        switch settings.authorizationStatus {
+        case .authorized, .provisional, .ephemeral:
+          showNotificationsError = nil
+        case .notDetermined:
+          center.requestAuthorization(options: [.alert]) { granted, _ in
+            DispatchQueue.main.async {
+              if granted {
+                showNotificationsError = nil
+              } else {
+                showNotifications = false
+                showNotificationsError = "Notifications are disabled in System Settings."
+              }
+            }
+          }
+        case .denied:
+          showNotifications = false
+          showNotificationsError = "Notifications are disabled in System Settings."
+        @unknown default:
+          showNotifications = false
+          showNotificationsError = "Notifications are unavailable."
+        }
+      }
+    }
   }
 
   private static func formatHotkeyError(_ notification: Notification) -> String {

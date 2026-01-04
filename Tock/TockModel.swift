@@ -1,11 +1,17 @@
 import Foundation
 import AppKit
 import AVFoundation
+import UserNotifications
 
 final class TockModel: ObservableObject {
   enum TimerMode {
     case countdown
     case stopwatch
+  }
+
+  private enum NotificationContext {
+    case duration(TimeInterval)
+    case timeOfDay(String)
   }
 
   @Published var remaining: TimeInterval = 0
@@ -27,6 +33,7 @@ final class TockModel: ObservableObject {
   private let timerTolerance: TimeInterval = 0.05
   private let alarmMinInterval: TimeInterval = 0.1
   private var lastDisplayedSecond: Int?
+  private var notificationContext: NotificationContext?
 
   var formattedRemaining: String {
     let total: Int
@@ -66,20 +73,24 @@ final class TockModel: ObservableObject {
 
   @discardableResult
   func startFromInputs() -> Bool {
-    let trimmed = inputDuration.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+    let rawInput = inputDuration.trimmingCharacters(in: .whitespacesAndNewlines)
+    let trimmed = rawInput.lowercased()
     guard !trimmed.isEmpty else { return false }
     if trimmed == "sw" || trimmed == "stopwatch" {
+      notificationContext = nil
       startStopwatch()
       inputDuration = ""
       return true
     }
     if let interval = parsedTimeOfDayInterval(from: trimmed) {
+      notificationContext = .timeOfDay(rawInput)
       start(duration: interval, isTimeOfDay: true)
       inputDuration = ""
       return true
     }
     let duration = parsedDuration(from: trimmed)
     guard duration > 0 else { return false }
+    notificationContext = .duration(duration)
     start(duration: duration, isTimeOfDay: false)
     inputDuration = ""
     return true
@@ -93,6 +104,13 @@ final class TockModel: ObservableObject {
     isPaused = false
     isTimeOfDayCountdown = isTimeOfDay
     targetDate = Date().addingTimeInterval(duration)
+    if isTimeOfDay {
+      if notificationContext == nil, let targetDate {
+        notificationContext = .timeOfDay(formattedTimeString(for: targetDate))
+      }
+    } else {
+      notificationContext = .duration(duration)
+    }
     lastDisplayedSecond = nil
     scheduleTimer()
   }
@@ -106,6 +124,7 @@ final class TockModel: ObservableObject {
     isTimeOfDayCountdown = false
     startDate = Date()
     lastDisplayedSecond = nil
+    notificationContext = nil
     scheduleTimer()
   }
 
@@ -147,6 +166,7 @@ final class TockModel: ObservableObject {
     inputDuration = ""
     mode = .countdown
     lastDisplayedSecond = nil
+    notificationContext = nil
     stopAlarm()
   }
 
@@ -389,7 +409,74 @@ final class TockModel: ObservableObject {
     isTimeOfDayCountdown = false
     targetDate = nil
     mode = .countdown
+    let context = notificationContext
+    notificationContext = nil
+    sendFinishedNotificationIfNeeded(context: context)
     startAlarm()
+  }
+
+  private func sendFinishedNotificationIfNeeded(context: NotificationContext?) {
+    guard UserDefaults.standard.bool(forKey: TockSettingsKeys.showNotifications) else { return }
+    guard let context else { return }
+
+    let body: String
+    switch context {
+    case .duration(let duration):
+      body = formattedDurationDescription(duration)
+    case .timeOfDay(let input):
+      let trimmed = input.trimmingCharacters(in: .whitespacesAndNewlines)
+      let timeString = trimmed.isEmpty ? formattedTimeString(for: Date()) : trimmed
+      body = "Reached \(timeString)"
+    }
+
+    let content = UNMutableNotificationContent()
+    content.title = "Timer Finished"
+    content.body = body
+
+    let request = UNNotificationRequest(
+      identifier: UUID().uuidString,
+      content: content,
+      trigger: nil
+    )
+    UNUserNotificationCenter.current().add(request)
+  }
+
+  private func formattedDurationDescription(_ duration: TimeInterval) -> String {
+    let totalSeconds = max(1, Int(ceil(duration)))
+    if totalSeconds < 60 {
+      return "\(formattedUnit(totalSeconds, unit: "second")) timer"
+    }
+
+    let totalMinutes = Int(ceil(duration / 60.0))
+    if totalMinutes < 60 {
+      return "\(formattedUnit(totalMinutes, unit: "minute")) timer"
+    }
+
+    let hours = totalMinutes / 60
+    let minutes = totalMinutes % 60
+    let hoursPart = formattedUnit(hours, unit: "hour")
+    if minutes == 0 {
+      return "\(hoursPart) timer"
+    }
+    let minutesPart = formattedUnit(minutes, unit: "minute")
+    return "\(hoursPart) \(minutesPart) timer"
+  }
+
+  private func formattedUnit(_ value: Int, unit: String) -> String {
+    let label = value == 1 ? unit : "\(unit)s"
+    return "\(value)-\(label)"
+  }
+
+  private func formattedTimeString(for date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.locale = Locale.current
+    formatter.timeStyle = .short
+    formatter.dateStyle = .none
+    return formatter.string(from: date)
+      .replacingOccurrences(of: "AM", with: "a.m.")
+      .replacingOccurrences(of: "PM", with: "p.m.")
+      .replacingOccurrences(of: "am", with: "a.m.")
+      .replacingOccurrences(of: "pm", with: "p.m.")
   }
 
   private func startAlarm() {

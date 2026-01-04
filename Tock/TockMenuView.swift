@@ -117,7 +117,7 @@ struct TockMenuView: View {
             .opacity(style.opacity)
             .shadow(color: style.shadowColor, radius: style.shadowRadius)
         }
-        .buttonStyle(.borderless)
+        .buttonStyle(HoverPillButtonStyle())
 
         Spacer()
         Button {
@@ -147,7 +147,7 @@ struct TockMenuView: View {
             .opacity(style.opacity)
             .shadow(color: style.shadowColor, radius: style.shadowRadius)
         }
-        .buttonStyle(.borderless)
+        .buttonStyle(HoverPillButtonStyle())
         .disabled(pauseDisabled)
         .opacity(pauseDisabled ? 0.5 : 1)
 
@@ -165,7 +165,7 @@ struct TockMenuView: View {
             .opacity(style.opacity)
             .shadow(color: style.shadowColor, radius: style.shadowRadius)
         }
-        .buttonStyle(.borderless)
+        .buttonStyle(HoverPillButtonStyle())
         .disabled(!model.isRunning)
         .opacity(model.isRunning ? 1 : 0.5)
       }
@@ -179,6 +179,52 @@ struct TockMenuView: View {
           isInputFocused = false
         }
     )
+  }
+}
+
+private struct HoverPillButtonStyle: ButtonStyle {
+  func makeBody(configuration: Configuration) -> some View {
+    HoverPillButton(configuration: configuration)
+  }
+
+  private struct HoverPillButton: View {
+    @Environment(\.isEnabled) private var isEnabled
+    @Environment(\.colorScheme) private var colorScheme
+    let configuration: ButtonStyle.Configuration
+    @State private var isHovering = false
+
+    var body: some View {
+      configuration.label
+        .padding(3)
+        .background(
+          RoundedRectangle(cornerRadius: 6, style: .continuous)
+            .fill(.regularMaterial)
+            .opacity(backgroundOpacity)
+        )
+        .overlay(
+          RoundedRectangle(cornerRadius: 6, style: .continuous)
+            .fill(Color.white.opacity(overlayOpacity))
+        )
+        .contentShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+        .scaleEffect(configuration.isPressed ? 0.965 : 1)
+        .onHover { hovering in
+          isHovering = hovering
+        }
+        .animation(.easeOut(duration: 0.12), value: isHovering)
+        .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
+    }
+
+    private var backgroundOpacity: Double {
+      guard isEnabled else { return 0 }
+      let targetOpacity: Double = colorScheme == .dark ? 0.95 : 0.55
+      return (isHovering || configuration.isPressed) ? targetOpacity : 0
+    }
+
+    private var overlayOpacity: Double {
+      guard isEnabled, colorScheme == .dark, (isHovering || configuration.isPressed) else { return 0 }
+      return 0.04
+    }
+
   }
 }
 

@@ -3,9 +3,10 @@ import SwiftUI
 import Combine
 import Carbon
 import ServiceManagement
+import UserNotifications
 
 @MainActor
-final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSPopoverDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSPopoverDelegate, UNUserNotificationCenterDelegate {
   private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
   private let popover = NSPopover()
   private let model = TockModel()
@@ -67,6 +68,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSPopo
     bindModel()
     updateStatusItem()
     configureHotkeys()
+    UNUserNotificationCenter.current().delegate = self
     DispatchQueue.main.async { [weak self] in
       self?.promptForLaunchAtLoginIfNeeded()
     }
@@ -569,5 +571,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSPopo
     }
     item.keyEquivalent = keyEquivalent
     item.keyEquivalentModifierMask = hotkey.modifierFlags
+  }
+
+  nonisolated func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    willPresent notification: UNNotification
+  ) async -> UNNotificationPresentationOptions {
+    return [.banner, .list]
   }
 }

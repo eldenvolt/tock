@@ -9,6 +9,7 @@ enum TockSettingsKeys {
   static let pauseResumeHotkey = "hotkeyPauseResume"
   static let clearHotkey = "hotkeyClear"
   static let didPromptLoginItem = "didPromptLoginItem"
+  static let showNotifications = "showNotifications"
   static let menuBarIconSize = "menuBarIconSize"
   static let menuButtonSize = "menuButtonSize"
   static let menuButtonBrightness = "menuButtonBrightness"

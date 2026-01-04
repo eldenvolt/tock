@@ -7,9 +7,9 @@ Super-minimal  menu bar timer with natural-language parsing, stopwatch mode, 
 ## Features
 
 - Menu bar countdown timer and stopwatch with natural-language input.
-- Flexible notifications: multiple tones, repeat behavior, volume, and default units.
+- Flexible notifications: banners, multiple tones, repeat behavior, and volume.
 - Context (right-click) menu with most app controls, plus popover UI.
-- Customizable global keyboard shortcuts for common actions.
+- Customizable interface elements and global keyboard shortcuts.
 
 ## Installation
 
