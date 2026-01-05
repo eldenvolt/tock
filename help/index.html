@@ -29,16 +29,16 @@
     <h1>Docs</h1>
   </header>
   <main>
-    <section id="overview">
+    <section>
       <h2>Overview</h2>
       <p>Tock is a super-minimal menu bar timer for macOS. It’s keyboard-driven, supports natural-language input, and intentionally focuses on a single active timer to keep the interface uncluttered. Tock uses macOS system colors and adapts automatically to light or dark mode. Shortcuts, notifications, and interface are all configurable.</p>
       <p>Tock is free, <a href="https://github.com/edelstone/tock">open source</a>, and does not track you or collect data.</p>
     </section>
-    <section id="requirements">
+    <section>
       <h2>Requirements</h2>
       <p>Requires macOS 14 or later.</p>
     </section>
-    <section id="installation">
+    <section>
       <h2>Installation</h2>
       <ol>
         <li>Download and open <strong>Tock.dmg</strong>.</li>
@@ -47,7 +47,7 @@
         <li>macOS may prompt you to add Tock to your login items. You can change this later in Tock settings or System Settings → General → Login Items & Extensions.</li>
       </ol>
     </section>
-    <section id="basic-usage">
+    <section>
       <h2>Basic usage</h2>
       <p>Start a timer by typing a duration into the Tock popover. Tock accepts flexible, natural inputs (examples below).</p>
       <ul>
@@ -59,14 +59,14 @@
       </ul>
       <p>Press <strong>Return</strong> to start. The active timer replaces any existing one. Duration timers count down to zero, then play a configurable tone and optionally show a notification. Finished timers can be repeated or cleared.</p>
     </section>
-    <section id="modes">
+    <section>
       <h2>Modes</h2>
       <ul>
         <li><strong>Countdown</strong> — run a timer for a set duration.</li>
         <li><strong>Stopwatch</strong> — count up from zero.</li>
       </ul>
     </section>
-    <section id="context-menu">
+    <section>
       <h2>Context menu</h2>
       <ul>
         <li>Right-click the menu bar icon to access controls.</li>
@@ -76,7 +76,7 @@
         <li>Quit Tock.</li>
       </ul>
     </section>
-    <section id="settings">
+    <section>
       <h2>Settings</h2>
       <ul>
         <li><strong>Launch Tock at Login</strong> — start Tock automatically when you sign in.</li>
@@ -93,7 +93,7 @@
         <li><strong>Clear Timer</strong> — configure the global shortcut to stop and clear the timer.</li>
       </ul>
     </section>
-    <section id="keyboard-shortcuts">
+    <section>
       <h2>Default keyboard shortcuts</h2>
       <ul>
         <li><strong>Open Tock</strong> — ⌃⌥⌘T</li>
@@ -101,7 +101,7 @@
         <li><strong>Clear Timer</strong> — ⌃⌥⌘X</li>
       </ul>
     </section>
-    <section id="support-this-project">
+    <section>
       <h2>Support this project</h2>
       <ul>
         <li><a href="https://www.buymeacoffee.com/edelstone">Buy Me a Coffee</a></li>
@@ -110,7 +110,7 @@
         <li><a href="https://venmo.com/michaeledelstone">Venmo</a></li>
       </ul>
     </section>
-    <section id="support">
+    <section>
       <h2>Bugs &amp; crashes</h2>
       <p>If you run into a bug or unexpected behavior, please open an issue on
         <a href="https://github.com/edelstone/tock/issues">GitHub</a> or <a href="mailto:hello@michaeledelstone.com">email me</a>, and include your macOS version, Tock version, and any relevant details.
@@ -121,6 +121,10 @@
     <a href="https://github.com/edelstone/tock">Source code</a>
     <a href="https://github.com/edelstone/tock/blob/main/LICENSE">License</a>
   </footer>
+  <script src="../assets/js/anchor.min.js"></script>
+  <script>
+    anchors.add("h2");
+  </script>
 </body>
 
 </html>

@@ -193,6 +193,10 @@ a:not(.button) {
   justify-self: flex-start;
 }
 
+.docs .anchorjs-link {
+  text-decoration: none;
+}
+
 .not-found .header,
 .not-found .return-home {
   margin: 0;
