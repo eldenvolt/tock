@@ -64,5 +64,6 @@ module.exports = {
       }
     ]
   },
-  files: ["index.html", "help/**/*.html", "404.html", "assets/css/*.css", "assets/js/*.js"]
+  files: ["**/*.html", "assets/css/*.css", "assets/js/*.js"],
+  ignore: ["node_modules", "dist", "build", ".git"]
 };
