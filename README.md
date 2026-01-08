@@ -42,6 +42,12 @@ See [docs/RELEASING.md](docs/RELEASING.md) for the full release workflow.
 - [Paypal](https://www.paypal.me/edelstone)
 - [Venmo](https://venmo.com/michaeledelstone)
 
+## Privacy
+
+Tock app does not collect or track personal data.
+
+[Privacy policy](https://edelstone.github.io/tock/privacy/)
+
 ## License
 
 MIT — free for commercial and personal use.
