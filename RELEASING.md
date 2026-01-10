@@ -144,10 +144,3 @@ Use this flow for the official non–App Store release. It produces a signed, no
 5. Add or update release notes.
    - `gh release edit v0.1.0 --notes $'Highlights:\n- First item\n- Second item'`
 6. Download and install the DMG from the GitHub Release. This DMG will match the signed + notarized artifact you uploaded.
-
-##### If GitHub Actions fails after tagging
-
-1. Delete the bad tag locally and remotely.
-   - `git tag -d v0.1.0 || true && git push origin :v0.1.0`
-2. Fix the issue.
-3. Re-tag and push again.
