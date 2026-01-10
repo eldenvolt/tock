@@ -34,7 +34,7 @@ Open `Tock.xcodeproj`, select the `Tock` scheme, and run from Xcode.
 
 ## Release paths
 
-This repo supports two release paths: the Mac App Store flow and the signed + notarized DMG flow for GitHub Releases.
+This repo supports two release paths: the Mac App Store flow and the signed + notarized DMG flow for GitHub releases.
 
 ### Mac App Store
 
@@ -124,7 +124,7 @@ Use this flow for the official non–App Store release. It produces a signed, no
 
 8. Launch `Tock.app` from `/Applications` and verify core behavior, notifications, settings, and shortcuts.
 
-#### Publish a release (GitHub)
+#### Publish the release
 
 1. Commit and push all release changes.
 2. Create and push a lightweight tag with the next sequential version number.
