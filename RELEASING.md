@@ -1,6 +1,6 @@
 # Releasing
 
-Build the signed + notarized DMG locally, then upload it to the GitHub Release.
+This guide covers the end-to-end workflows for shipping Tock through supported distribution channels.
 
 ## Version, build, and tag rules
 
@@ -32,7 +32,11 @@ Build the signed + notarized DMG locally, then upload it to the GitHub Release.
 
 Open `Tock.xcodeproj`, select the `Tock` scheme, and run from Xcode.
 
-## App Store release (Mac App Store)
+## Release paths
+
+This repo supports two release paths: the Mac App Store flow and the signed + notarized DMG flow for GitHub Releases.
+
+### Mac App Store
 
 Use this flow for the Mac App Store build (App Store Connect).
 
@@ -56,7 +60,7 @@ Use this flow for the Mac App Store build (App Store Connect).
    - Click “Submit for Review”.
    - After approval, click “Release” or enable “Automatically release this version” before submission.
 
-## Signed & notarized DMG (Developer ID)
+### Signed & notarized DMG
 
 Use this flow for the official non–App Store release. It produces a signed, notarized, and stapled DMG.
 
@@ -122,7 +126,7 @@ Use this flow for the official non–App Store release. It produces a signed, no
 
 8. Launch `Tock.app` from `/Applications` and verify core behavior, notifications, settings, and shortcuts.
 
-## Publish a release (GitHub)
+#### Publish a release (GitHub)
 
 1. Commit and push all release changes.
 2. Create and push a lightweight tag with the next sequential version number.
@@ -141,7 +145,7 @@ Use this flow for the official non–App Store release. It produces a signed, no
    - `gh release edit v0.1.0 --notes $'Highlights:\n- First item\n- Second item'`
 6. Download and install the DMG from the GitHub Release. This DMG will match the signed + notarized artifact you uploaded.
 
-### If GitHub Actions fails after tagging
+##### If GitHub Actions fails after tagging
 
 1. Delete the bad tag locally and remotely.
    - `git tag -d v0.1.0 || true && git push origin :v0.1.0`
