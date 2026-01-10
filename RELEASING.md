@@ -2,6 +2,26 @@
 
 Build the signed + notarized DMG locally, then upload it to the GitHub Release.
 
+## Version, build, and tag rules
+
+### App Store (App Store Connect)
+
+- Version = what users see.
+- Build = Apple’s upload counter.
+- Build must increase on every upload, even if Version does not.
+- Increment Version only when you are publishing a new release. For re-uploads, keep Version the same and increment Build.
+
+### DMG (GitHub)
+
+- Version must change for every public DMG.
+- Build is optional and may stay at `1` if Version always changes.
+
+### GitHub tags
+
+- One tag = one exact DMG
+- Never replace a DMG under an existing tag.
+- If you rebuild, make a new tag (new Version, or same Version with a build/suffix).
+
 ## Prerequisites
 
 - Xcode installed.
@@ -11,6 +31,30 @@ Build the signed + notarized DMG locally, then upload it to the GitHub Release.
 ## Development
 
 Open `Tock.xcodeproj`, select the `Tock` scheme, and run from Xcode.
+
+## App Store release (Mac App Store)
+
+Use this flow for the Mac App Store build (App Store Connect).
+
+1. Bump the app version/build in Xcode.
+   - Target `Tock` → General → Version (MARKETING_VERSION) and Build (CURRENT_PROJECT_VERSION).
+   - Bump Build to a new integer _every upload_ (App Store Connect rejects reused build numbers).
+
+2. Archive and upload from Xcode.
+   - Target `Tock` → Signing & Capabilities:
+     - Automatically manage signing: On
+     - Team: your paid team
+     - Signing to run locally: Development
+   - Product → Archive
+   - Archive Organizer → Distribute App → App Store Connect → Upload
+
+3. Complete the release in App Store Connect (the Xcode upload only delivers the build).
+   - App Store Connect → My Apps → Tock.
+   - Click the “+” next to Versions and pick the new version number.
+   - On the new version page, set the build by clicking “Select a build” and choosing the uploaded archive.
+   - Fill any required metadata (What’s New, age rating, etc.) and resolve validation errors.
+   - Click “Submit for Review”.
+   - After approval, click “Release” or enable “Automatically release this version” before submission.
 
 ## Signed & notarized DMG (Developer ID)
 
@@ -22,7 +66,7 @@ Use this flow for the official non–App Store release. It produces a signed, no
 
 2. Archive and notarize the app in Xcode.
    - Target `Tock` → Signing & Capabilities:
-     - Release tab (not Debug/All)
+     - Build configuration: Release (Archive uses Release by default)
      - Automatically manage signing: off
      - Provisioning profile: none
      - Team: your paid team
@@ -79,8 +123,6 @@ Use this flow for the official non–App Store release. It produces a signed, no
 8. Launch `Tock.app` from `/Applications` and verify core behavior, notifications, settings, and shortcuts.
 
 ## Publish a release (GitHub)
-
-If you only incremented the build number (same version/tag), start at step 4 and re-upload the DMG.
 
 1. Commit and push all release changes.
 2. Create and push a lightweight tag with the next sequential version number.

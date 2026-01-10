@@ -26,7 +26,7 @@ Super-minimal menu bar timer for macOS, with natural-language parsing, stopwatch
 
 ## Releasing
 
-See [docs/RELEASING.md](docs/RELEASING.md) for the full release workflow.
+See [RELEASING.md](RELEASING.md) for the full release workflow.
 
 ## Credits
 
